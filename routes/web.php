@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
+Route::get('/dashboard', [MenuController::class, 'index'])->middleware(['auth']);
+
+Route::get('/add-to-tray/{id}/{price}', [MenuController::class, 'addToTray'])->name('add-to-tray')->middleware(['auth']);
+
+Route::get('/success', [MenuController::class, 'completePurchase'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
